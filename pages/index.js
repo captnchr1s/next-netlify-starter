@@ -2,6 +2,23 @@ import Head from 'next/head'
 import Header from '@components/Header'
 import Footer from '@components/Footer'
 
+import { fetchEntries } from '@utils/contentfulPosts'
+import Post from '@components/Post'
+
+export async function getStaticProps() {
+  const res = await fetchEntries()
+  const posts = await res.map((p) => {
+    return p.fields
+  })
+
+  return {
+    props: {
+      posts,
+    },
+  }
+}
+
+
 export default function Home() {
   return (
     <div className="container">
@@ -16,7 +33,11 @@ export default function Home() {
           Get started by editing <code>pages/index.js</code>
         </p>
       </main>
-
+      <div className="posts">
+        {posts.map((p) => {
+          return <Post key={p.date} date={p.date} image={p.image.fields} title={p.title} />
+        })}
+      </div>
       <Footer />
 
       <style jsx>{`
