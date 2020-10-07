@@ -10,7 +10,6 @@ export async function getStaticProps() {
   const posts = await res.map((p) => {
     return p.fields
   })
-
   return {
     props: {
       posts,
@@ -19,7 +18,7 @@ export async function getStaticProps() {
 }
 
 
-export default function Home() {
+export default function Home({posts}) {
   return (
     <div className="container">
       <Head>
